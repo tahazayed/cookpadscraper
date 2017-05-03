@@ -1,4 +1,6 @@
-scrapy crawl cookpadr -o articles.json -t json -s LOG_FILE=wiki.log
+git push heroku master
+
 
 scrapy crawl extractLinks 
+
 scrapy crawl cookpadr 

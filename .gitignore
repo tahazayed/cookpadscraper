@@ -1,5 +1,4 @@
 *.log
-commit_git.bat
 .DS_Store
 __pycache__
 **/__pycache__/**

@@ -16,7 +16,7 @@ class CookpadrSpider(scrapy.Spider):
             urls.append(result['url'])
             
         for i, url in enumerate(urls):
-            yield scrapy.Request(url=url.replace('\n',''),meta={'dont_merge_cookies': False}\
+            yield scrapy.Request(url='https://cookpad.com'+url,meta={'dont_merge_cookies': False}\
             ,callback=self.parse,dont_filter=True,encoding='utf-8',errback=self.errback)
 
                     
@@ -25,7 +25,7 @@ class CookpadrSpider(scrapy.Spider):
         soup = BeautifulSoup(page, 'html.parser')
         recipi_name = soup.find('h1',{'class':"recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
         author_name = soup.find('span', attrs={'itemprop':"author"}).text.strip()
-        author_url = 'https://cookpad.com' + soup.find('span', attrs={'itemprop':"author"}).parent['href']
+        author_url = soup.find('span', attrs={'itemprop':"author"}).parent['href']
         recipi_id = soup.find('div', attrs={'class':'bookmark-button '})['id'].replace('bookmark_recipe_','')
         try:
                 recipi_image = [x['src'] for x in soup.findAll('img',{'alt':'Photo'})][0]
@@ -69,7 +69,7 @@ class CookpadrSpider(scrapy.Spider):
                 likes = 0
         recipe = RecipeItem()
         recipe["n"] = recipi_name
-        recipe["src"] = response.url
+        recipe["src"] = response.url.replace('https://cookpad.com', '')
         recipe["rcpe_id"] = (recipi_id, long(recipi_id.strip()))[len(recipi_id.strip())>0]
         recipe["ingrd"] = recipi_ingredients
         recipe["instrct"] = recipi_instructions

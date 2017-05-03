@@ -20,7 +20,7 @@ class ExtractlinksSpider(scrapy.Spider):
         for recipe in recipes:
             item = RecipeURLItem()
 
-            item['url'] = 'https://cookpad.com' + recipe.xpath(
+            item['url'] = recipe.xpath(
                 'a[@class="media"]/@href').extract()[0]
             yield item
       
