@@ -14,7 +14,7 @@ BOT_NAME = 'cookpad'
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
 LOG_LEVEL= 'ERROR'
-#LOG_FILE='cookpad.log'
+LOG_FILE='cookpad.log'
 
 ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
 
@@ -101,9 +101,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = False
-HTTPCACHE_EXPIRATION_SECS = 0
-HTTPCACHE_DIR = './httpcache'
-HTTPCACHE_IGNORE_HTTP_CODES = []
-HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-HTTPCACHE_GZIP = True
+#HTTPCACHE_ENABLED = False
+#HTTPCACHE_EXPIRATION_SECS = 0
+#HTTPCACHE_DIR = './httpcache'
+#HTTPCACHE_IGNORE_HTTP_CODES = []
+#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+#HTTPCACHE_GZIP = True
