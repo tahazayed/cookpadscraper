@@ -1,7 +1,7 @@
 # cookpadscraper
 git push heroku master
 
-
+clock: SCRAPY_ENV=production scrapy crawl extractLinks 
 scrapy crawl extractLinks 
 
 scrapy crawl cookpadr 
