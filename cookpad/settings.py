@@ -18,13 +18,13 @@ LOG_FILE='cookpad.log'
 
 ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
 
-MONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
-MONGODB_DB = "meals"
+MONGODB_SERVER = "ds127321.mlab.com"
+MONGODB_PORT = 27321
+MONGODB_DB = "heroku_v65c6f57"
 MONGODB_COLLECTION_RECIPES = "recipes"
 MONGODB_COLLECTION_RECIPES_SPIDER = 'recipes_spider'
-MONGODB_USER = "website"
-MONGODB_PASSWORD = "Don'tLogin"
+MONGODB_USER = "admin"
+MONGODB_PASSWORD = "dodido_2008"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'cookpad (+http://www.yourdomain.com)'
