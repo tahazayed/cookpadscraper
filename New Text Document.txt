@@ -1,0 +1,4 @@
+scrapy crawl cookpadr -o articles.json -t json -s LOG_FILE=wiki.log
+
+scrapy crawl extractLinks 
+scrapy crawl cookpadr 
