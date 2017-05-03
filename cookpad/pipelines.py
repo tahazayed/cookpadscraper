@@ -9,7 +9,7 @@ import scrapy
 from scrapy.conf import settings
 from scrapy.exceptions import DropItem
 import logging
-
+from cookpad.items import RecipeItem,RecipeURLItem
         
 class MongoDBPipeline(object):
 
@@ -23,11 +23,11 @@ class MongoDBPipeline(object):
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
-        if spider.name == 'cookpadr':        
+        if isinstance(item, RecipeItem):      
            self.db[settings['MONGODB_COLLECTION_RECIPES']].update({'rcpe_id': item['rcpe_id']}, dict(item), upsert=True)
            if settings['LOG_LEVEL'] == 'DEBUG':
               spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
-        elif spider.name == 'extractLinks':
+        elif isinstance(item, RecipeURLItem):
             self.db[settings['MONGODB_COLLECTION_RECIPES_SPIDER']].update({'url': item['url']}, dict(item), upsert=True)
 
         return item

@@ -9,6 +9,7 @@ from scrapy.selector import Selector
 from twisted.internet import reactor, defer
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
+from scrapy.utils.project import get_project_settings
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -126,8 +127,8 @@ class ExtractlinksSpider(scrapy.Spider):
         pass
 
 
-configure_logging()
-runner = CrawlerRunner()
+#configure_logging()
+runner = CrawlerRunner(get_project_settings())
 
 @defer.inlineCallbacks
 def crawl():
