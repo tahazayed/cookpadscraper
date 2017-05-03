@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from cookpad.items import RecipeItem
+from cookpad.items import RecipeItem,RecipeURLItem
 from bs4 import BeautifulSoup
 from datetime import datetime
 from cookpad.mongodal import MongoDAL
+from time import sleep
+from scrapy.selector import Selector
+from twisted.internet import reactor, defer
+from scrapy.crawler import CrawlerRunner
+from scrapy.utils.log import configure_logging
+
 
 class CookpadrSpider(scrapy.Spider):
     name = "cookpadr"
@@ -88,3 +94,46 @@ class CookpadrSpider(scrapy.Spider):
         
     def errback(self, response):
        pass
+
+
+
+
+class ExtractlinksSpider(scrapy.Spider):
+    name = "extractLinks"
+    allowed_domains = ["cookpad.com"]
+    base_url = 'https://cookpad.com/eg/وصفات?page=%s'
+    start_urls = [base_url % 1]
+    pageid = 1
+
+    
+
+    def parse(self, response):
+        recipes = Selector(response).xpath('//li[@class="recipe"]')
+
+        for recipe in recipes:
+            item = RecipeURLItem()
+
+            item['url'] = recipe.xpath(
+                'a[@class="media"]/@href').extract()[0]
+            yield item
+      
+        if  len(recipes)>0:
+            self.pageid = self.pageid + 1    
+            next_page = self.base_url % self.pageid
+            yield scrapy.Request(url=next_page, callback=self.parse,meta={'dont_merge_cookies': False},dont_filter=True,encoding='utf-8',errback=self.errback)    
+
+    def errback(self, response):
+        pass
+
+
+configure_logging()
+runner = CrawlerRunner()
+
+@defer.inlineCallbacks
+def crawl():
+    yield runner.crawl(ExtractlinksSpider)
+    yield runner.crawl(CookpadrSpider)
+    reactor.stop()
+
+crawl()
+reactor.run() # the script will block here until the last crawl call is finished
