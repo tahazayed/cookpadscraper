@@ -40,7 +40,8 @@ class CookpadrSpider(scrapy.Spider):
                 recipi_image = ''
         
         recipi_likes = soup.find('span', attrs={'class':'field-group__hide subtle'}).text.strip()
-                likes=0
+        
+        likes=0
         try:
                 likes = (0, int(recipi_likes.strip()))[len(recipi_likes.strip())>0]
         except:
