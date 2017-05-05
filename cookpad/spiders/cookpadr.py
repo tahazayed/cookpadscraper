@@ -89,7 +89,7 @@ class CookpadrSpider(scrapy.Spider):
                 recipe["tags"] = recipi_tags
                 recipe["likes"] = likes
                 recipe["pub"] = datetime.utcnow().isoformat()
-                recipe["etag"] = response.headers.get(b'Etag').decode("utf-8")
+                #recipe["etag"] = response.headers.get(b'Etag').decode("utf-8")
                 #recipe["desc"] = desc 
                 del  page, soup, recipi_name, author_name, author_url, recipi_id, likes
                 del recipi_image, recipi_likes, recipi_ingredients, index
