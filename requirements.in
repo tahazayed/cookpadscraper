@@ -6,4 +6,3 @@ setuptools
 pandas
 numpy
 wheel
-pymssql
