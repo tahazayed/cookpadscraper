@@ -10,7 +10,7 @@ setup(
         'psycopg2',
         'bs4',
         'pymongo',
-		'pymssql'
+        'pymssql'
     ],
     entry_points = {'scrapy': ['settings = cookpad.settings']},
     scripts = ['bin/testargs.py']
