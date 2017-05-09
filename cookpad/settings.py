@@ -13,12 +13,12 @@ BOT_NAME = 'cookpad'
 
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
-LOG_LEVEL= 'DEBUG'
-LOG_FILE='cookpad.log'
+LOG_LEVEL = 'DEBUG'
+LOG_FILE = 'cookpad.log'
 
-IS_MSSQLDB = False
+IS_MSSQLDB = True
 
-ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
+ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
 MONGODB_SERVER = "ds127321.mlab.com"
 MONGODB_PORT = 27321
@@ -42,7 +42,7 @@ DOWNLOADER_MIDDLEWARES = {
             'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 300}
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 50
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay

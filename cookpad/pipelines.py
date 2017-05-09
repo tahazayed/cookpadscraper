@@ -43,6 +43,7 @@ class MongoDBPipeline(object):
 class MsSQLDBPipeline(object):
 
     def process_item(self, item, spider):
+        print(item)
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
