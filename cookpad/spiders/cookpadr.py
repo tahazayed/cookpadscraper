@@ -117,7 +117,7 @@ class ExtractlinksSpider(scrapy.Spider):
     base_url = 'https://cookpad.com/eg/وصفات?page=%s'
     start_urls = [base_url % 1]
     pageid = 1
-    max_page_Id = 5
+    max_page_Id = 100000
 
     def parse(self, response):
         recipes = Selector(response).xpath('//li[@class="recipe"]')

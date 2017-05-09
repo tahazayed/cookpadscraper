@@ -17,7 +17,7 @@ LOG_LEVEL = 'ERROR'
 #LOG_FILE = 'cookpad.log'
 
 
-IS_MSSQLDB = True
+IS_MSSQLDB = False
 
 ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
@@ -109,7 +109,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 10.0
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = True
+HTTPCACHE_ENABLED = False
 HTTPCACHE_EXPIRATION_SECS = 0
 HTTPCACHE_DIR = './httpcache'
 HTTPCACHE_IGNORE_HTTP_CODES = []
