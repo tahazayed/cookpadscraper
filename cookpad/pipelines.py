@@ -52,11 +52,11 @@ class MsSQLDBPipeline(object):
         if isinstance(item, RecipeItem):
             with pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
                                       password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB']\
-                    ,autocommit=True) as conn:
+                    ,autocommit=True,charset='UTF-8') as conn:
                 with conn.cursor(as_dict=True) as cursor:
                     try:
                        temp_item = json.dumps(dict(item),ensure_ascii=False).replace('\r\n','')
-                       cursor.callproc("USP_GeneralLog_upsert",(temp_item,))
+                       cursor.callproc("USP_GeneralLog_upsert",(temp_item,item['rcpe_id']))
                     except:
                       pass
                     cursor.close()

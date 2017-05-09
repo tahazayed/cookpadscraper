@@ -71,7 +71,8 @@ class CookpadrSpider(scrapy.Spider):
             for i in soup.find_all('li', {'class': 'step numbered-list__item card-sm'}):
                 step = i.find('p').text.strip()
                 try:
-                    imageUrl = [x['src'] for x in i.findAll('img')][0]
+                    imageUrl = [x['src'] for x in i.findAll('img')][0]\
+                        .replace('//global.cpcdn.com/en/assets/blank_step-17c926f7cd09f48ae848b5dfe68bcf26cf84cf2129001eee9513dc6c062d83bc.jpg','')
                 except:
                     imageUrl = ''
                 recipe_instructions.append({'in': index, 'txt': step, 'img': imageUrl})
