@@ -18,9 +18,9 @@ class MongoDBPipeline(object):
         self.mongo_uri = "mongodb://%s:%s@%s:%s/%s" % (settings['MONGODB_USER'], settings['MONGODB_PASSWORD'], settings['MONGODB_SERVER'], settings['MONGODB_PORT'], settings['MONGODB_DB'])
         
         self.mongo_db = settings['MONGODB_DB']
-        
 
     def process_item(self, item, spider):
+        print(item)
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
@@ -36,34 +36,31 @@ class MongoDBPipeline(object):
     def open_spider(self, spider):
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
-  
-    
+
     def close_spider(self, spider):
         self.client.close()
 
 
 class MsSQLDBPipeline(object):
-    def __init__(self):
-        pass
 
     def process_item(self, item, spider):
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
+
         if isinstance(item, RecipeItem):
             with self.client.cursor(as_dict=True) as cursor:
-                print(dict(item))
                 cursor.callproc("USP_GeneralLog_upsert",(dict(item),))
             if settings['LOG_LEVEL'] == 'DEBUG':
                 spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
         elif isinstance(item, RecipeURLItem):
             with self.client.cursor(as_dict=True) as cursor:
                 cursor.callproc("UDP_RecipesSpider_upsert",(item['url'],))
-        self.client.commit()
         return item
 
     def open_spider(self, spider):
-        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'], password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'])
+        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
+                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'],autocommit=True)
 
     def close_spider(self, spider):
         self.client.close()

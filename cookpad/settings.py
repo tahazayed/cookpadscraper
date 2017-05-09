@@ -16,9 +16,9 @@ NEWSPIDER_MODULE = 'cookpad.spiders'
 LOG_LEVEL= 'DEBUG'
 LOG_FILE='cookpad.log'
 
-IS_MSSQLDB = True
+IS_MSSQLDB = False
 
-ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
+ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
 
 MONGODB_SERVER = "ds127321.mlab.com"
 MONGODB_PORT = 27321
@@ -30,8 +30,6 @@ MONGODB_PASSWORD = "dodido_2008"
 
 MSSQL_SERVER = "TAHA-AMIN"
 MSSQL_DB = "meals"
-MSSQL_COLLECTION_RECIPES = "recipes"
-MSSQL_COLLECTION_RECIPES_SPIDER = 'recipes_spider'
 MSSQL_USER = "meals"
 MSSQL_PASSWORD = "dodido_2008"
 
@@ -41,10 +39,10 @@ MSSQL_PASSWORD = "dodido_2008"
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 DOWNLOADER_MIDDLEWARES = {
-            'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 300 }
+            'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 300}
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 1
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -56,7 +54,7 @@ CONCURRENT_REQUESTS = 32
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = True
-COOKIES_DEBUG = False
+COOKIES_DEBUG = True
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
 

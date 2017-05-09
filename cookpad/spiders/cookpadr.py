@@ -22,7 +22,7 @@ class CookpadrSpider(scrapy.Spider):
 
         if settings['IS_MSSQLDB']:
             msSQLDAL = MsSQLDAL()
-            results = msSQLDAL.read_mssql(query="SELECT top 5 url FROM dbo.RecipesSpider with(nolock)")
+            results = msSQLDAL.read_mssql(query="SELECT top 1 url FROM dbo.RecipesSpider with(nolock)")
         else:
             mongodal = MongoDAL()
             results = mongodal.read_mongo(collection="recipes_spider")
@@ -34,7 +34,7 @@ class CookpadrSpider(scrapy.Spider):
             yield scrapy.Request(url='https://cookpad.com'+url,meta={'dont_merge_cookies': False}\
             ,callback=self.parse,dont_filter=True,encoding='utf-8',errback=self.errback)
 
-                    
+
     def parse(self, response):
         page=response.body.decode("utf-8")
         soup = BeautifulSoup(page, 'html.parser')

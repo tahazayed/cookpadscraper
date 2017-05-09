@@ -10,7 +10,9 @@ class MsSQLDAL:
        pass
 
     def _open_connection(self):
-        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'], password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'])
+        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
+                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'],\
+                                      autocommit=True)
 
     def _close_connection(self):
         self.client.close()  
