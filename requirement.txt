@@ -4,13 +4,13 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-attrs==16.3.0             # via service-identity
-awscli==1.11.45           # via scrapy-dotpersistence
+attrs            # via service-identity
+awscli          # via scrapy-dotpersistence
 backports.ssl-match-hostname==3.5.0.1  # via websocket-client
-boto==2.45.0
-botocore==1.5.8           # via awscli, s3transfer
-bsddb3==6.2.4             # via scrapy-deltafetch
-cffi==1.9.1               # via cryptography
+boto
+botocore           # via awscli, s3transfer
+bsddb3             # via scrapy-deltafetch
+cffi               # via cryptography
 colorama==0.3.7           # via awscli
 constantly==15.1.0        # via twisted
 cryptography==1.7.2       # via pyopenssl
@@ -67,10 +67,10 @@ unidecode==0.4.20         # via python-slugify
 w3lib==1.17.0             # via parsel, scrapy
 websocket-client==0.40.0  # via slackclient
 zope.interface==4.3.3     # via twisted
-bs4>=4.5.3
-pymongo=>3.1.1
-pymssql=>2.2.3
+bs4
+pymongo
+pymssql
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools                # via cryptography, zope.interface
+#setuptools                # via cryptography, zope.interface
 
