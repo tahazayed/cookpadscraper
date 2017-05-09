@@ -5,3 +5,4 @@ cffi
 pandas
 numpy
 wheel
+pymssql
