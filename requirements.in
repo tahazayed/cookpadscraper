@@ -1,7 +1,6 @@
 scrapy
 pymongo
 bs4
-pymssql
 cffi
 setuptools
 pandas
