@@ -67,11 +67,10 @@ unidecode==0.4.20         # via python-slugify
 w3lib==1.17.0             # via parsel, scrapy
 websocket-client==0.40.0  # via slackclient
 zope.interface==4.3.3     # via twisted
+bs4>=4.5.3
+pymongo=>3.1.1
+pymssql=>2.2.3
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools                # via cryptography, zope.interface
-
-bs4>=4.5.3
-pymongo=>3.1.1
-pymssql=>2.2.1
 
