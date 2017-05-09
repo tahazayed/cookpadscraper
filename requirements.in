@@ -2,7 +2,6 @@ scrapy
 pymongo
 bs4
 cffi
-setuptools
 pandas
 numpy
 wheel
