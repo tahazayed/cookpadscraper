@@ -13,13 +13,13 @@ BOT_NAME = 'cookpad'
 
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
-LOG_LEVEL = 'DEBUG'
-LOG_FILE = './cookpad.log'
+LOG_LEVEL = 'ERROR'
+#LOG_FILE = 'cookpad.log'
 
 
-IS_MSSQLDB = True
+IS_MSSQLDB = False
 
-ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
+ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
 
 MONGODB_SERVER = "ds127321.mlab.com"
 MONGODB_PORT = 27321
@@ -54,8 +54,8 @@ CONCURRENT_REQUESTS = 50
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = True
-COOKIES_DEBUG = True
+COOKIES_ENABLED = False
+COOKIES_DEBUG = False
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED = False
 

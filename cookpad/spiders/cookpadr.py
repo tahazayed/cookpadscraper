@@ -7,7 +7,7 @@ from cookpad.mongodal import MongoDAL
 from cookpad.mssqlodal import MsSQLDAL
 from scrapy.selector import Selector
 from twisted.internet import reactor, defer
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerRunner, CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy.conf import settings
 from scrapy.utils.log import configure_logging
@@ -117,7 +117,7 @@ class ExtractlinksSpider(scrapy.Spider):
     base_url = 'https://cookpad.com/eg/وصفات?page=%s'
     start_urls = [base_url % 1]
     pageid = 1
-    max_page_Id = 3
+    max_page_Id = 1000000
 
     
 
@@ -144,10 +144,11 @@ def notThreadSafe(x):
     """do something that isn't thread-safe"""
     pass
 
+
 configure_logging()
 project_settings = get_project_settings()
 
-runner = CrawlerRunner(project_settings)
+runner = CrawlerProcess(settings=project_settings)
 
 @defer.inlineCallbacks
 def crawl():
@@ -160,6 +161,7 @@ try:
     reactor.run() # the script will block here until the last crawl call is finished
 except:
     pass
+
 
 
 
