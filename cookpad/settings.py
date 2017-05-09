@@ -13,10 +13,10 @@ BOT_NAME = 'cookpad'
 
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
-LOG_LEVEL= 'ERROR'
+LOG_LEVEL= 'DEBUG'
 #LOG_FILE='cookpad.log'
 
-ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
+ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
 MONGODB_SERVER = "ds127321.mlab.com"
 MONGODB_PORT = 27321
@@ -25,6 +25,13 @@ MONGODB_COLLECTION_RECIPES = "recipes"
 MONGODB_COLLECTION_RECIPES_SPIDER = 'recipes_spider'
 MONGODB_USER = "admin"
 MONGODB_PASSWORD = "dodido_2008"
+
+MSSQL_SERVER = "TAHA-AMIN"
+MSSQL_DB = "meals"
+MSSQL_COLLECTION_RECIPES = "recipes"
+MSSQL_COLLECTION_RECIPES_SPIDER = 'recipes_spider'
+MSSQL_USER = "meals"
+MSSQL_PASSWORD = "dodido_2008"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'cookpad (+http://www.yourdomain.com)'

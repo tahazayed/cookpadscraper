@@ -11,8 +11,8 @@ class MongoDAL:
         
         self.mongo_db = settings['MONGODB_DB']
         
-        self.client = pymongo.MongoClient(self.mongo_uri)
-        self.db = self.client[self.mongo_db]
+        #self.client = pymongo.MongoClient(self.mongo_uri)
+        #self.db = self.client[self.mongo_db]
                 
                 
     def _open_connection(self):
