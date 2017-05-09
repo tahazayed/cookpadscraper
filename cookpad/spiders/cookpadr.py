@@ -10,6 +10,7 @@ from twisted.internet import reactor, defer
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
 from scrapy.conf import settings
+from scrapy.utils.log import configure_logging
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -20,7 +21,7 @@ class CookpadrSpider(scrapy.Spider):
 
         if settings['IS_MSSQLDB']:
             msSQLDAL = MsSQLDAL()
-            results = msSQLDAL.read_mssql(query="SELECT top 100 url FROM dbo.RecipesSpider with(nolock)")
+            results = msSQLDAL.read_mssql(query="SELECT url FROM dbo.RecipesSpider with(nolock)")
         else:
             mongodal = MongoDAL()
             results = mongodal.read_mongo(collection="recipes_spider")
@@ -54,14 +55,12 @@ class CookpadrSpider(scrapy.Spider):
                 likes = 0
                 
         if likes !=0:
-            print(response.request.url)
             desc = soup.find(attrs={'name':'description'})['content']
 
-                
             #recipi_image = recipi_image_div.find('a',{'data-target':'#modal'})["href"]
             recipi_ingredients = []
             index = 1
-            for i in soup.find_all('li',{'class':'ingredient '}):
+            for i in soup.find_all('li',{'class':'ingredient'}):
                if i.text.strip() != '':
                  recipi_ingredients.append({'in':index, 'n':i.text.strip()})
                  index = index + 1
@@ -87,7 +86,7 @@ class CookpadrSpider(scrapy.Spider):
 
             recipe = RecipeItem()
             recipe["n"] = recipi_name
-            recipe["src"] = response.url.replace('https://cookpad.com', '')
+            recipe["src"] = response.url.replace('https://cookpad.com/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
             recipe["rcpe_id"] = (recipi_id, int(recipi_id.strip()))[len(recipi_id.strip())>0]
             recipe["ingrd"] = recipi_ingredients
             recipe["instrct"] = recipi_instructions
@@ -117,8 +116,8 @@ class ExtractlinksSpider(scrapy.Spider):
     allowed_domains = ["cookpad.com"]
     base_url = 'https://cookpad.com/eg/وصفات?page=%s'
     start_urls = [base_url % 1]
-    pageid = 10
-    max_page_Id = 10
+    pageid = 1
+    max_page_Id = 3
 
     
 
@@ -135,14 +134,20 @@ class ExtractlinksSpider(scrapy.Spider):
         if  len(recipes)>0 and self.pageid<self.max_page_Id:
             self.pageid = self.pageid + 1    
             next_page = self.base_url % self.pageid
-            yield scrapy.Request(url=next_page, callback=self.parse,meta={'dont_merge_cookies': False},dont_filter=True,encoding='utf-8',errback=self.errback)    
+            yield scrapy.Request(url=next_page, callback=self.parse,meta={'dont_merge_cookies': False},dont_filter=True\
+                                 ,encoding='utf-8',errback=self.errback)
 
     def errback(self, response):
         pass
 
+def notThreadSafe(x):
+    """do something that isn't thread-safe"""
+    pass
 
-#configure_logging()
-runner = CrawlerRunner(get_project_settings())
+configure_logging()
+project_settings = get_project_settings()
+
+runner = CrawlerRunner(project_settings)
 
 @defer.inlineCallbacks
 def crawl():
@@ -150,5 +155,15 @@ def crawl():
     yield runner.crawl(CookpadrSpider)
     reactor.stop()
 
-crawl()
-reactor.run() # the script will block here until the last crawl call is finished
+try:
+    crawl()
+    reactor.run() # the script will block here until the last crawl call is finished
+except:
+    pass
+
+
+
+
+
+
+

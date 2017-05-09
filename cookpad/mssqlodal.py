@@ -25,6 +25,7 @@ class MsSQLDAL:
         with self.client.cursor(as_dict=True) as cursor:
             cursor.execute(query)
             results=list(cursor.fetchall())
+            cursor.close()
             """
             for row in cursor:
                 results.append(row)
