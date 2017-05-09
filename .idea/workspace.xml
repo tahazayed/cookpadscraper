@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f54e16ac-e07f-4dff-9c6e-e8912b33899d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commit_git.bat" afterPath="$PROJECT_DIR$/commit_git.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cookpad/mongodal.py" afterPath="$PROJECT_DIR$/cookpad/mongodal.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cookpad/mssqlodal.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cookpad/pipelines.py" afterPath="$PROJECT_DIR$/cookpad/pipelines.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cookpad/settings.py" afterPath="$PROJECT_DIR$/cookpad/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cookpad/spiders/cookpadr.py" afterPath="$PROJECT_DIR$/cookpad/spiders/cookpadr.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirement.txt" afterPath="$PROJECT_DIR$/requirement.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,8 +22,8 @@
       <file leaf-file-name="pipelines.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cookpad/pipelines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="57" column="73" lean-forward="false" selection-start-line="57" selection-start-column="73" selection-end-line="57" selection-end-column="73" />
+            <state relative-caret-position="208">
+              <caret line="44" column="30" lean-forward="true" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
               <folding>
                 <element signature="e#192#206#0" expanded="true" />
               </folding>
@@ -30,11 +31,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="cookpadr.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cookpad/spiders/cookpadr.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="634">
+              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding>
+                <element signature="e#24#37#0" expanded="true" />
+                <marker date="1494331324995" expanded="true" signature="734:786" ph="SELECT top 5... RecipesSpider" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mssqlodal.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cookpad/mssqlodal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="23" column="33" lean-forward="false" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
+              <folding>
+                <element signature="e#26#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongodal.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cookpad/mongodal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="657">
+              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cookpad/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="15" column="17" lean-forward="false" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+            <state relative-caret-position="431">
+              <caret line="18" column="10" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -59,7 +95,10 @@
         <option value="$PROJECT_DIR$/cookpad/mongodal.py" />
         <option value="$PROJECT_DIR$/cookpad/mssqldal.py" />
         <option value="$PROJECT_DIR$/commit_git.bat" />
+        <option value="$PROJECT_DIR$/requirement.txt" />
         <option value="$PROJECT_DIR$/cookpad/settings.py" />
+        <option value="$PROJECT_DIR$/cookpad/mssqlodal.py" />
+        <option value="$PROJECT_DIR$/cookpad/spiders/cookpadr.py" />
         <option value="$PROJECT_DIR$/cookpad/pipelines.py" />
       </list>
     </option>
@@ -351,16 +390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cookpad/mongodal.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding>
-            <element signature="e#26#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commit_git.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -369,18 +398,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/requirement.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="77" column="0" lean-forward="true" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cookpad/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="15" column="17" lean-forward="false" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+        <state relative-caret-position="431">
+          <caret line="18" column="10" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cookpad/mongodal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="657">
+          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cookpad/mssqlodal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="23" column="33" lean-forward="false" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
+          <folding>
+            <element signature="e#26#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cookpad/spiders/cookpadr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="634">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="e#24#37#0" expanded="true" />
+            <marker date="1494331324995" expanded="true" signature="734:786" ph="SELECT top 5... RecipesSpider" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cookpad/pipelines.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="57" column="73" lean-forward="false" selection-start-line="57" selection-start-column="73" selection-end-line="57" selection-end-column="73" />
+        <state relative-caret-position="208">
+          <caret line="44" column="30" lean-forward="true" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
           <folding>
             <element signature="e#192#206#0" expanded="true" />
           </folding>

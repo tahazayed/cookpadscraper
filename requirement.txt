@@ -74,3 +74,4 @@ zope.interface==4.3.3     # via twisted
 
 bs4>=4.5.3
 pymongo=>3.1.1
+pymssql=>2.1.3

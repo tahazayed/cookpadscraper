@@ -4,12 +4,14 @@ from cookpad.items import RecipeItem,RecipeURLItem
 from bs4 import BeautifulSoup
 from datetime import datetime
 from cookpad.mongodal import MongoDAL
+from cookpad.mssqlodal import MsSQLDAL
 from time import sleep
 from scrapy.selector import Selector
 from twisted.internet import reactor, defer
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
+from scrapy.conf import settings
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -17,8 +19,14 @@ class CookpadrSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = []
-        mongodal = MongoDAL()
-        results = mongodal.read_mongo(collection="recipes_spider")
+
+        if settings['IS_MSSQLDB']:
+            msSQLDAL = MsSQLDAL()
+            results = msSQLDAL.read_mssql(query="SELECT top 5 url FROM dbo.RecipesSpider with(nolock)")
+        else:
+            mongodal = MongoDAL()
+            results = mongodal.read_mongo(collection="recipes_spider")
+
         for result in results:
             urls.append(result['url'])
             
@@ -138,7 +146,7 @@ runner = CrawlerRunner(get_project_settings())
 
 @defer.inlineCallbacks
 def crawl():
-    yield runner.crawl(ExtractlinksSpider)
+    #yield runner.crawl(ExtractlinksSpider)
     yield runner.crawl(CookpadrSpider)
     reactor.stop()
 

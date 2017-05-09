@@ -11,6 +11,7 @@ from scrapy.exceptions import DropItem
 import logging
 from cookpad.items import RecipeItem,RecipeURLItem
 import pymssql
+
 class MongoDBPipeline(object):
 
     def __init__(self):
@@ -50,7 +51,9 @@ class MsSQLDBPipeline(object):
             if not data:
                 raise DropItem("Missing data!")
         if isinstance(item, RecipeItem):
-            pass
+            with self.client.cursor(as_dict=True) as cursor:
+                print(dict(item))
+                cursor.callproc("USP_GeneralLog_upsert",(dict(item),))
             if settings['LOG_LEVEL'] == 'DEBUG':
                 spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
         elif isinstance(item, RecipeURLItem):
@@ -61,6 +64,6 @@ class MsSQLDBPipeline(object):
 
     def open_spider(self, spider):
         self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'], password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'])
-        #self.cursor = self.client.cursor()
+
     def close_spider(self, spider):
         self.client.close()
