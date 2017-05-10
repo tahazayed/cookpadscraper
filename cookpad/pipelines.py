@@ -56,7 +56,7 @@ class MsSQLDBPipeline(object):
                 with conn.cursor(as_dict=True) as cursor:
                     try:
                        temp_item = json.dumps(dict(item),ensure_ascii=False).replace('\r\n','')
-                       cursor.callproc("USP_GeneralLog_upsert",(temp_item,item['rcpe_id']))
+                       cursor.callproc("USP_Recipes_upsert",(temp_item,))
                     except:
                       pass
                     cursor.close()
