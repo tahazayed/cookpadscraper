@@ -21,7 +21,7 @@ class CookpadrSpider(scrapy.Spider):
 
         if settings['IS_MSSQLDB']:
             msSQLDAL = MsSQLDAL()
-            results = msSQLDAL.read_mssql(query="SELECT top 10 url FROM dbo.RecipesSpider with(nolock)")
+            results = msSQLDAL.read_mssql(query="SELECT url FROM dbo.RecipesSpider with(nolock)")
         else:
             mongodal = MongoDAL()
             results = mongodal.read_mongo(collection="recipes_spider")
