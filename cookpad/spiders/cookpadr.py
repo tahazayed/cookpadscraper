@@ -85,7 +85,7 @@ class CookpadrSpider(scrapy.Spider):
                 for x in i.find_all('a'):
                     if('/eg/search/' in x['href']):
                         recipe_tags.append(x.text.strip())
-                        break
+
 
             recipe = RecipeItem()
             recipe["n"] = recipe_name
@@ -118,7 +118,7 @@ class ExtractlinksSpider(scrapy.Spider):
     base_url = 'https://cookpad.com/eg/وصفات?page=%s'
     start_urls = [base_url % 1]
     pageid = 1
-    max_page_Id = 3
+    max_page_Id = 3000000
 
     def parse(self, response):
         recipes = Selector(response).xpath('//li[@class="recipe"]')
