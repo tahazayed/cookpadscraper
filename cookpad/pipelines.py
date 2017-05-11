@@ -57,9 +57,8 @@ class MsSQLDBPipeline(object):
             if settings['LOG_LEVEL'] == 'DEBUG':
                spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
         elif isinstance(item, RecipeURLItem):
-            msSQLDAL.execute_none_query(query="USP_RecipesSpider_upsert",sp_params=(item['url'],),\
+            self.msSQLDAL.execute_none_query(query="USP_RecipesSpider_upsert",sp_params=(item['url'],),\
                                         app_name='MsSQLDBPipeline-'+spider.name)
-        del msSQLDAL
         return item
     def open_spider(self, spider):
         self.msSQLDAL = MsSQLDAL()
