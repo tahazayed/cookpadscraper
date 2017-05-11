@@ -49,11 +49,10 @@ class MsSQLDBPipeline(object):
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
-        msSQLDAL = MsSQLDAL()
 
         if isinstance(item, RecipeItem):
             temp_item = json.dumps(dict(item), ensure_ascii=False).replace('\r\n', '')
-            msSQLDAL.execute_none_query(query="USP_Recipes_upsert", sp_params=(temp_item,),\
+            self.msSQLDAL.execute_none_query(query="USP_Recipes_upsert", sp_params=(temp_item,),\
                                         app_name='MsSQLDBPipeline-' + spider.name)
             if settings['LOG_LEVEL'] == 'DEBUG':
                spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
@@ -62,4 +61,8 @@ class MsSQLDBPipeline(object):
                                         app_name='MsSQLDBPipeline-'+spider.name)
         del msSQLDAL
         return item
+    def open_spider(self, spider):
+        self.msSQLDAL = MsSQLDAL()
 
+    def close_spider(self, spider):
+        self.msSQLDAL = None

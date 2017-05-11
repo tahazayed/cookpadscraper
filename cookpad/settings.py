@@ -17,9 +17,9 @@ LOG_LEVEL = 'ERROR'
 #LOG_FILE = 'cookpad.log'
 
 
-IS_MSSQLDB = False
+IS_MSSQLDB = True
 
-ITEM_PIPELINES = {'cookpad.pipelines.MongoDBPipeline':300}
+ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
 MONGODB_SERVER = "ds127321.mlab.com"
 MONGODB_PORT = 27321
