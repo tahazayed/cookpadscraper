@@ -17,7 +17,7 @@ LOG_LEVEL = 'ERROR'
 #LOG_FILE = 'cookpad.log'
 
 
-IS_MSSQLDB = True
+IS_MSSQLDB = False
 
 ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
