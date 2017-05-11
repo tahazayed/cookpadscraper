@@ -7,31 +7,40 @@ from scrapy.conf import settings
 class MsSQLDAL:
     
     def __init__(self):
-       pass
+        pymssql.set_max_connections(1000)
+        pass
 
-    def _open_connection(self):
-        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
-                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'],\
-                                      autocommit=True)
 
-    def _close_connection(self):
-        self.client.close()  
-
-    def read_mssql(self, query=""):
+    def read(self, query="",sp_params=(),app_name=""):
         """ Read from MSSQL and Store into DataFrame """
         results=[]
         # Connect to MSSQL
-        self._open_connection()
-        with self.client.cursor(as_dict=True) as cursor:
-            cursor.execute(query)
-            results=list(cursor.fetchall())
-            cursor.close()
-            """
-            for row in cursor:
-                results.append(row)
-            """
-        #close connection
-        self._close_connection()
+        with pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'], \
+                             password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'] \
+                , autocommit=True, charset='UTF-8', appname=app_name) as conn:
+            with conn.cursor(as_dict=True) as cursor:
+               try:
+                    cursor.callproc(query, sp_params)
+                    results = list(cursor)
+               except:
+                    pass
+               cursor.close()
+            conn.close()
         return results
 
+
+    def execute_none_query(self, query="",sp_params=(),app_name=""):
+        """ Execute none query """
+
+        with pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'], \
+                             password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'] \
+                , autocommit=True, charset='UTF-8', appname=app_name) as conn:
+            with conn.cursor(as_dict=True) as cursor:
+               try:
+                   cursor.callproc(query, sp_params)
+                   conn.commit()
+               except:
+                   pass
+               cursor.close()
+            conn.close()
 

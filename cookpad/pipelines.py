@@ -12,6 +12,7 @@ import logging
 from cookpad.items import RecipeItem,RecipeURLItem
 import pymssql
 import json
+from cookpad.mssqlodal import MsSQLDAL
 
 class MongoDBPipeline(object):
 
@@ -48,32 +49,18 @@ class MsSQLDBPipeline(object):
         for data in item:
             if not data:
                 raise DropItem("Missing data!")
+        msSQLDAL = MsSQLDAL()
 
         if isinstance(item, RecipeItem):
-            with pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
-                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB']\
-                    ,autocommit=True,charset='UTF-8') as conn:
-                with conn.cursor(as_dict=True) as cursor:
-                    try:
-                       temp_item = json.dumps(dict(item),ensure_ascii=False).replace('\r\n','')
-                       cursor.callproc("USP_Recipes_upsert",(temp_item,))
-                    except:
-                      pass
-                    cursor.close()
-                conn.close()
+            temp_item = json.dumps(dict(item), ensure_ascii=False).replace('\r\n', '')
+            msSQLDAL.execute_none_query(query="USP_Recipes_upsert", sp_params=(temp_item,),\
+                                        app_name='MsSQLDBPipeline-' + spider.name)
             if settings['LOG_LEVEL'] == 'DEBUG':
-                spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
+               spider.logger.debug("{} added to MongoDB database!".format(item['rcpe_id']))
         elif isinstance(item, RecipeURLItem):
-            with pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
-                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB']\
-                    ,autocommit=True) as conn:
-                with conn.cursor(as_dict=True) as cursor:
-                    try:
-                        cursor.callproc("UDP_RecipesSpider_upsert",(item['url'],))
-                    except:
-                      pass
-                    cursor.close()
-                conn.close()
+            msSQLDAL.execute_none_query(query="USP_RecipesSpider_upsert",sp_params=(item['url'],),\
+                                        app_name='MsSQLDBPipeline-'+spider.name)
+        del msSQLDAL
         return item
 
     def open_spider(self, spider):

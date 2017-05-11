@@ -17,47 +17,51 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Recip
 ALTER TABLE [dbo].[RecipesSpider] DROP CONSTRAINT IF EXISTS [DF_RecipesSpider_Last_updated]
 GO
 
-/****** Object:  Index [IX_Instructions_rcpe_id]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_RecipesSpider_URL]    Script Date: 5/11/2017 9:02:50 PM ******/
+DROP INDEX IF EXISTS [IX_RecipesSpider_URL] ON [dbo].[RecipesSpider]
+GO
+
+/****** Object:  Index [IX_Instructions_rcpe_id]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP INDEX IF EXISTS [IX_Instructions_rcpe_id] ON [dbo].[Instructions]
 GO
 
-/****** Object:  Index [IX_Instructions_OrderNO]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Instructions_OrderNO]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP INDEX IF EXISTS [IX_Instructions_OrderNO] ON [dbo].[Instructions]
 GO
 
-/****** Object:  Index [IX_Instructions_img]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Instructions_img]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP INDEX IF EXISTS [IX_Instructions_img] ON [dbo].[Instructions]
 GO
 
-/****** Object:  Index [IX_Ingredients_rcpe_id]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Ingredients_rcpe_id]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP INDEX IF EXISTS [IX_Ingredients_rcpe_id] ON [dbo].[Ingredients]
 GO
 
-/****** Object:  Index [IX_Ingredients_OrderNO]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Ingredients_OrderNO]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP INDEX IF EXISTS [IX_Ingredients_OrderNO] ON [dbo].[Ingredients]
 GO
 
-/****** Object:  Table [dbo].[RecipesSpider]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[RecipesSpider]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP TABLE IF EXISTS [dbo].[RecipesSpider]
 GO
 
-/****** Object:  Table [dbo].[Recipes]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Recipes]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP TABLE IF EXISTS [dbo].[Recipes]
 GO
 
-/****** Object:  Table [dbo].[Instructions]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Instructions]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP TABLE IF EXISTS [dbo].[Instructions]
 GO
 
-/****** Object:  Table [dbo].[Ingredients]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Ingredients]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP TABLE IF EXISTS [dbo].[Ingredients]
 GO
 
-/****** Object:  Table [dbo].[Authors]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Authors]    Script Date: 5/11/2017 9:02:50 PM ******/
 DROP TABLE IF EXISTS [dbo].[Authors]
 GO
 
-/****** Object:  Table [dbo].[Authors]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Authors]    Script Date: 5/11/2017 9:02:50 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -69,7 +73,7 @@ BEGIN
 CREATE TABLE [dbo].[Authors](
 	[SID] [bigint] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](200) NOT NULL,
-	[SRC] [varchar](512) NOT NULL,
+	[SRC] [varchar](900) NOT NULL,
  CONSTRAINT [PK_Authors] PRIMARY KEY CLUSTERED 
 (
 	[SID] ASC
@@ -82,7 +86,7 @@ CREATE TABLE [dbo].[Authors](
 END
 GO
 
-/****** Object:  Table [dbo].[Ingredients]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Ingredients]    Script Date: 5/11/2017 9:02:50 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -104,7 +108,7 @@ CREATE TABLE [dbo].[Ingredients](
 END
 GO
 
-/****** Object:  Table [dbo].[Instructions]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Instructions]    Script Date: 5/11/2017 9:02:50 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -117,7 +121,7 @@ CREATE TABLE [dbo].[Instructions](
 	[SID] [bigint] IDENTITY(1,1) NOT NULL,
 	[OrderNO] [tinyint] NOT NULL,
 	[txt] [nvarchar](500) NOT NULL,
-	[img] [varchar](512) NULL,
+	[img] [varchar](900) NULL,
 	[rcpe_id] [bigint] NOT NULL,
  CONSTRAINT [PK_Instructions] PRIMARY KEY CLUSTERED 
 (
@@ -127,7 +131,7 @@ CREATE TABLE [dbo].[Instructions](
 END
 GO
 
-/****** Object:  Table [dbo].[Recipes]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[Recipes]    Script Date: 5/11/2017 9:02:50 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -139,8 +143,8 @@ BEGIN
 CREATE TABLE [dbo].[Recipes](
 	[rcpe_id] [bigint] NOT NULL,
 	[n] [nvarchar](max) NULL,
-	[src] [varchar](512) NULL,
-	[img] [varchar](512) NULL,
+	[src] [varchar](900) NULL,
+	[img] [varchar](900) NULL,
 	[tags] [nvarchar](max) NULL,
 	[likes] [int] NULL,
 	[pub] [datetime] NULL,
@@ -153,7 +157,7 @@ CREATE TABLE [dbo].[Recipes](
 END
 GO
 
-/****** Object:  Table [dbo].[RecipesSpider]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Table [dbo].[RecipesSpider]    Script Date: 5/11/2017 9:02:50 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -164,21 +168,17 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Re
 BEGIN
 CREATE TABLE [dbo].[RecipesSpider](
 	[SID] [bigint] IDENTITY(1,1) NOT NULL,
-	[URL] [varchar](100) NOT NULL,
+	[URL] [varchar](900) NOT NULL,
 	[Last_updated] [datetime] NOT NULL,
  CONSTRAINT [PK_RecipesSpider] PRIMARY KEY CLUSTERED 
 (
 	[SID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [IX_RecipesSpider_URL] UNIQUE NONCLUSTERED 
-(
-	[URL] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
 
-/****** Object:  Index [IX_Ingredients_OrderNO]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Ingredients_OrderNO]    Script Date: 5/11/2017 9:02:50 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Ingredients]') AND name = N'IX_Ingredients_OrderNO')
 CREATE NONCLUSTERED INDEX [IX_Ingredients_OrderNO] ON [dbo].[Ingredients]
 (
@@ -186,7 +186,7 @@ CREATE NONCLUSTERED INDEX [IX_Ingredients_OrderNO] ON [dbo].[Ingredients]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
-/****** Object:  Index [IX_Ingredients_rcpe_id]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Ingredients_rcpe_id]    Script Date: 5/11/2017 9:02:50 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Ingredients]') AND name = N'IX_Ingredients_rcpe_id')
 CREATE NONCLUSTERED INDEX [IX_Ingredients_rcpe_id] ON [dbo].[Ingredients]
 (
@@ -198,7 +198,7 @@ SET ANSI_PADDING ON
 
 GO
 
-/****** Object:  Index [IX_Instructions_img]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Instructions_img]    Script Date: 5/11/2017 9:02:50 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Instructions]') AND name = N'IX_Instructions_img')
 CREATE NONCLUSTERED INDEX [IX_Instructions_img] ON [dbo].[Instructions]
 (
@@ -206,7 +206,7 @@ CREATE NONCLUSTERED INDEX [IX_Instructions_img] ON [dbo].[Instructions]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
-/****** Object:  Index [IX_Instructions_OrderNO]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Instructions_OrderNO]    Script Date: 5/11/2017 9:02:50 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Instructions]') AND name = N'IX_Instructions_OrderNO')
 CREATE NONCLUSTERED INDEX [IX_Instructions_OrderNO] ON [dbo].[Instructions]
 (
@@ -214,12 +214,24 @@ CREATE NONCLUSTERED INDEX [IX_Instructions_OrderNO] ON [dbo].[Instructions]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
-/****** Object:  Index [IX_Instructions_rcpe_id]    Script Date: 5/10/2017 8:21:22 PM ******/
+/****** Object:  Index [IX_Instructions_rcpe_id]    Script Date: 5/11/2017 9:02:50 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Instructions]') AND name = N'IX_Instructions_rcpe_id')
 CREATE NONCLUSTERED INDEX [IX_Instructions_rcpe_id] ON [dbo].[Instructions]
 (
 	[rcpe_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
+SET ANSI_PADDING ON
+
+GO
+
+/****** Object:  Index [IX_RecipesSpider_URL]    Script Date: 5/11/2017 9:02:50 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[RecipesSpider]') AND name = N'IX_RecipesSpider_URL')
+CREATE UNIQUE NONCLUSTERED INDEX [IX_RecipesSpider_URL] ON [dbo].[RecipesSpider]
+(
+	[URL] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_RecipesSpider_Last_updated]') AND type = 'D')

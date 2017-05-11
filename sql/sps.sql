@@ -1,43 +1,19 @@
 USE [Meals]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/10/2017 8:30:54 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_upsert]
+GO
+
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/11/2017 9:03:19 PM ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_readall]
+GO
+
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_Recipes_upsert]
 GO
 
-/****** Object:  StoredProcedure [dbo].[UDP_RecipesSpider_upsert]    Script Date: 5/10/2017 8:30:54 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[UDP_RecipesSpider_upsert]
-GO
-
-/****** Object:  StoredProcedure [dbo].[UDP_RecipesSpider_upsert]    Script Date: 5/10/2017 8:30:54 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UDP_RecipesSpider_upsert]') AND type in (N'P', N'PC'))
-BEGIN
-EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[UDP_RecipesSpider_upsert] AS' 
-END
-GO
-
-ALTER proc [dbo].[UDP_RecipesSpider_upsert]
-@URL nvarchar(1000)
-as
-update [dbo].[RecipesSpider] set [Last_updated]=getdate() where [url]=@URL
-
-if (@@ROWCOUNT = 0)
-begin
-INSERT INTO [dbo].[RecipesSpider]
-           ([URL])
-     VALUES
-           (@URL)
-end
-
-GO
-
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/10/2017 8:30:54 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -52,13 +28,14 @@ GO
 
 
 
+
 ALTER proc [dbo].[USP_Recipes_upsert]
 @json NVARCHAR(MAX)
 as
 
 
-declare @likes int, @n nvarchar(500),@src varchar(512),@img varchar(512),@tags nvarchar(max),@pub datetime,
-@_auth  nvarchar(max),@ingrd nvarchar(max),@instrct nvarchar(max),@auth_anme  nvarchar(200),@auth_src varchar(512),@rcpe_id bigint
+declare @likes int, @n nvarchar(500),@src varchar(900),@img varchar(900),@tags nvarchar(max),@pub datetime,
+@_auth  nvarchar(max),@ingrd nvarchar(max),@instrct nvarchar(max),@auth_anme  nvarchar(200),@auth_src varchar(900),@rcpe_id bigint
 
 declare @Author_SID bigint
 
@@ -106,9 +83,57 @@ delete Instructions with(rowlock) where rcpe_id=@rcpe_id
 insert Instructions(OrderNO,txt,img,rcpe_id)
 SELECT OrderNO,txt,img,@rcpe_id as rcpe_id
 FROM OPENJSON(@instrct)  
-  WITH (OrderNO int 'strict $.in', txt nvarchar(500) '$.txt',img nvarchar(500) '$.img' ) 
+  WITH (OrderNO int 'strict $.in', txt nvarchar(500) '$.txt',img varchar(900) '$.img' ) 
 
 update Instructions with(rowlock) set img =null where img=''
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/11/2017 9:03:19 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RecipesSpider_readall]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[USP_RecipesSpider_readall] AS' 
+END
+GO
+
+ALTER proc [dbo].[USP_RecipesSpider_readall]
+as
+SELECT url FROM dbo.RecipesSpider with(nolock) order by SID
+GO
+
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RecipesSpider_upsert]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[USP_RecipesSpider_upsert] AS' 
+END
+GO
+
+ALTER proc [dbo].[USP_RecipesSpider_upsert]
+@URL nvarchar(900)
+as
+
+ MERGE RecipesSpider AS target  
+    USING (SELECT @URL) AS source (URL)  
+    ON (target.URL = source.URL)  
+    WHEN MATCHED THEN   
+        UPDATE SET Last_updated=getdate()  
+    WHEN NOT MATCHED THEN  
+    INSERT  (URL)  
+    VALUES (@URL); 
+
+
 GO
 
 
