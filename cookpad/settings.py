@@ -29,7 +29,7 @@ MONGODB_COLLECTION_RECIPES_SPIDER = 'recipes_spider'
 MONGODB_USER = "admin"
 MONGODB_PASSWORD = "dodido_2008"
 
-MSSQL_SERVER = "TAHA-AMIN"
+MSSQL_SERVER = "."
 MSSQL_DB = "meals"
 MSSQL_USER = "meals"
 MSSQL_PASSWORD = "dodido_2008"
@@ -109,7 +109,7 @@ AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = False
+HTTPCACHE_ENABLED = True
 HTTPCACHE_EXPIRATION_SECS = 0
 HTTPCACHE_DIR = './httpcache'
 HTTPCACHE_IGNORE_HTTP_CODES = []

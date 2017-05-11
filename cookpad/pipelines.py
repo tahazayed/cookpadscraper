@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import pymongo
-import scrapy
 from scrapy.conf import settings
 from scrapy.exceptions import DropItem
-import logging
-from cookpad.items import RecipeItem,RecipeURLItem
-import pymssql
-import json
+
+from cookpad.items import RecipeItem, RecipeURLItem
 from cookpad.mssqlodal import MsSQLDAL
+
 
 class MongoDBPipeline(object):
 
@@ -63,13 +63,3 @@ class MsSQLDBPipeline(object):
         del msSQLDAL
         return item
 
-    def open_spider(self, spider):
-        pass
-        """
-        self.client = pymssql.connect(server=settings['MSSQL_SERVER'], user=settings['MSSQL_USER'],\
-                                      password=settings['MSSQL_PASSWORD'], database=settings['MSSQL_DB'],autocommit=True)
-        """
-
-    def close_spider(self, spider):
-        pass
-        #self.client.close()

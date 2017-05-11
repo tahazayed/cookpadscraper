@@ -2,7 +2,9 @@
 
 
 import pymssql
+
 from scrapy.conf import settings
+
 
 class MsSQLDAL:
     

@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-import scrapy
-from cookpad.items import RecipeItem, RecipeURLItem
-from bs4 import BeautifulSoup
 from datetime import datetime
+
+import scrapy
+from bs4 import BeautifulSoup
+from scrapy.conf import settings
+from scrapy.crawler import CrawlerProcess
+from scrapy.selector import Selector
+from scrapy.utils.log import configure_logging
+from scrapy.utils.project import get_project_settings
+from twisted.internet import reactor, defer
+
+from cookpad.items import RecipeItem, RecipeURLItem
 from cookpad.mongodal import MongoDAL
 from cookpad.mssqlodal import MsSQLDAL
-from scrapy.selector import Selector
-from twisted.internet import reactor, defer
-from scrapy.crawler import CrawlerRunner, CrawlerProcess
-from scrapy.utils.project import get_project_settings
-from scrapy.conf import settings
-from scrapy.utils.log import configure_logging
 
 
 class CookpadrSpider(scrapy.Spider):
