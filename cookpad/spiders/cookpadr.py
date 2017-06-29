@@ -123,7 +123,7 @@ class ExtractlinksSpider(scrapy.Spider):
     #max_page_Id = 3000000
 
     def parse(self, response):
-        recipes = Selector(response).xpath('//li[@class="recipe"]')
+        recipes = Selector(response).xpath('//li[@class="wide-card ranked-list__item"]')
 
         for recipe in recipes:
             item = RecipeURLItem()
@@ -158,7 +158,7 @@ runner = CrawlerProcess(settings=project_settings)
 @defer.inlineCallbacks
 def crawl():
     yield runner.crawl(ExtractlinksSpider)
-    yield runner.crawl(CookpadrSpider)
+    #yield runner.crawl(CookpadrSpider)
     reactor.stop()
 
 

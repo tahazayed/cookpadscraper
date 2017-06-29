@@ -1,19 +1,19 @@
 USE [Meals]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_upsert]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/15/2017 3:44:46 AM ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_readall]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_Recipes_upsert]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -89,7 +89,7 @@ update Instructions with(rowlock) set img =null where img=''
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/15/2017 3:44:46 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -104,10 +104,14 @@ GO
 
 ALTER proc [dbo].[USP_RecipesSpider_readall]
 as
-SELECT url FROM dbo.RecipesSpider with(nolock) order by SID
+SELECT url FROM dbo.RecipesSpider with(nolock)
+left join Recipes with(nolock) on Recipes.src=RecipesSpider.URL
+where Recipes.src is null
+ order by RecipesSpider.SID
+
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/11/2017 9:03:19 PM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
 SET ANSI_NULLS ON
 GO
 

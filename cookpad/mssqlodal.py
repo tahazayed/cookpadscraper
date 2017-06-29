@@ -5,15 +5,16 @@ import pymssql
 
 from sqlalchemy import create_engine
 from scrapy.conf import settings
-
+import logging
 
 class MsSQLDAL:
     
     def __init__(self):
+        logging.basicConfig()
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
         self.mypool = create_engine("mssql+pymssql://%s:%s@%s/%s?charset=utf8" % (
             settings['MSSQL_USER'], settings['MSSQL_PASSWORD'], settings['MSSQL_SERVER'], settings['MSSQL_DB']),\
-                                      pool_size=100,
-                                      pool_recycle=3600, echo=True)
+                                      pool_size=100,  pool_recycle=3600, echo=False)
 
         pass
 
@@ -45,6 +46,7 @@ class MsSQLDAL:
               conn.execute(query)
               trans.commit()
             except:
+                trans.rollback()
                 pass
             conn.close()
 
