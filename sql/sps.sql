@@ -1,19 +1,34 @@
 USE [Meals]
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_upsert]
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_NotFound_insert]    Script Date: 7/2/2017 12:49:38 PM ******/
+SET ANSI_NULLS ON
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/15/2017 3:44:46 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[USP_RecipesSpider_readall]
+SET QUOTED_IDENTIFIER ON
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
-DROP PROCEDURE IF EXISTS [dbo].[USP_Recipes_upsert]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_Recipes_NotFound_insert]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[USP_Recipes_NotFound_insert] AS' 
+END
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
+
+ALTER proc [dbo].[USP_Recipes_NotFound_insert]
+@src varchar(900)
+as
+
+
+INSERT INTO [dbo].[Recipes_NotFound]
+           ([src])
+     VALUES
+           (@src)
+
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[USP_Recipes_upsert]    Script Date: 7/2/2017 12:49:38 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -89,7 +104,7 @@ update Instructions with(rowlock) set img =null where img=''
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 5/15/2017 3:44:46 AM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_readall]    Script Date: 7/2/2017 12:49:38 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -102,16 +117,21 @@ EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[USP_RecipesSpider_
 END
 GO
 
+
+
 ALTER proc [dbo].[USP_RecipesSpider_readall]
 as
 SELECT url FROM dbo.RecipesSpider with(nolock)
 left join Recipes with(nolock) on Recipes.src=RecipesSpider.URL
-where Recipes.src is null
+left join Recipes_NotFound with(nolock) on RecipesSpider.URL=Recipes_NotFound.src
+where Recipes.src is null and Recipes_NotFound.src is null
  order by RecipesSpider.SID
+
+
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 5/15/2017 3:44:46 AM ******/
+/****** Object:  StoredProcedure [dbo].[USP_RecipesSpider_upsert]    Script Date: 7/2/2017 12:49:38 PM ******/
 SET ANSI_NULLS ON
 GO
 

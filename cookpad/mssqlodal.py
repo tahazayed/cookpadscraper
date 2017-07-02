@@ -6,6 +6,7 @@ import pymssql
 from sqlalchemy import create_engine
 from scrapy.conf import settings
 import logging
+import sys
 
 class MsSQLDAL:
     
@@ -47,6 +48,7 @@ class MsSQLDAL:
               trans.commit()
             except:
                 trans.rollback()
+                print(sys.exc_info()[0])
                 pass
             conn.close()
 

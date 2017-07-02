@@ -22,8 +22,8 @@ class CookpadrSpider(scrapy.Spider):
         urls = []
 
         if settings['IS_MSSQLDB']:
-            msSQLDAL = MsSQLDAL()
-            results = msSQLDAL.read(query="USP_RecipesSpider_readall",app_name=self.name)
+            self.msSQLDAL = MsSQLDAL()
+            results = self.msSQLDAL.read(query="USP_RecipesSpider_readall",app_name=self.name)
         else:
             mongodal = MongoDAL()
             results = mongodal.read_mongo(collection="recipes_spider")
@@ -111,6 +111,10 @@ class CookpadrSpider(scrapy.Spider):
             pass
 
     def errback(self, response):
+        if settings['IS_MSSQLDB']:
+            src = response.request.url.replace('https://cookpad.com/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
+            self.msSQLDAL.execute_none_query(query="exec USP_Recipes_NotFound_insert @src='%s'", sp_params=(src.replace('\r\n', '')), \
+                                        app_name='MsSQLDBPipeline-' + self.name)
         pass
 
 
