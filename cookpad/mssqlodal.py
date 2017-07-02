@@ -48,7 +48,7 @@ class MsSQLDAL:
               trans.commit()
             except:
                 trans.rollback()
-                print(sys.exc_info()[0])
+                logging.ERROR(sys.exc_info()[0],sp_params)
                 pass
             conn.close()
 
