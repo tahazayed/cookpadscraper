@@ -13,6 +13,7 @@ from twisted.internet import reactor, defer
 from cookpad.items import RecipeItem, RecipeURLItem
 from cookpad.mongodal import MongoDAL
 from cookpad.mssqlodal import MsSQLDAL
+import sys
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -108,6 +109,8 @@ class CookpadrSpider(scrapy.Spider):
 
             return recipe
         else:
+            if(self.logger.isEnabledFor(10)):
+                self.logger.debug("0 Likes")
             pass
 
     def errback(self, response):
