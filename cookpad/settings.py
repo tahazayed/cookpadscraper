@@ -13,7 +13,7 @@ BOT_NAME = 'cookpad'
 
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'ERROR'
 LOG_FILE = 'cookpad.log'
 
 
