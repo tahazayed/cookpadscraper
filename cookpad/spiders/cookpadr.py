@@ -41,7 +41,7 @@ class CookpadrSpider(scrapy.Spider):
         soup = BeautifulSoup(page, 'html.parser')
         recipe_name = soup.find('h1', {
             'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
-        author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","''")
+        author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
         author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
         recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
         try:
@@ -65,7 +65,7 @@ class CookpadrSpider(scrapy.Spider):
             index = 1
             for i in soup.find_all('li', {'class': 'ingredient'}):
                 if i.text.strip() != '':
-                    recipe_ingredients.append({"in": index, "n": i.text.strip()})
+                    recipe_ingredients.append({'in': index, 'n': i.text.strip().replace("'","-")})
                     index = index + 1
 
             index = 1
@@ -77,7 +77,7 @@ class CookpadrSpider(scrapy.Spider):
                         .replace('//global.cpcdn.com/en/assets/blank_step-17c926f7cd09f48ae848b5dfe68bcf26cf84cf2129001eee9513dc6c062d83bc.jpg','')
                 except:
                     imageUrl = ''
-                recipe_instructions.append({"in": index, "txt": step, "img": imageUrl})
+                recipe_instructions.append({'in': index, 'txt': step.replace("'","-"), 'img': imageUrl})
                 del step, imageUrl
 
                 index = index + 1
@@ -86,17 +86,17 @@ class CookpadrSpider(scrapy.Spider):
             for i in soup.find_all('ul', {"class": 'list-inline'}):
                 for x in i.find_all('a'):
                     if('/eg/search/' in x['href']):
-                        recipe_tags.append(x.text.strip())
+                        recipe_tags.append(x.text.strip().replace("'","-"))
 
 
             recipe = RecipeItem()
-            recipe["n"] = recipe_name
+            recipe["n"] = recipe_name.replace("'","-")
             recipe["src"] = response.url.replace('https://cookpad.com/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
             recipe["rcpe_id"] = (recipe_id, int(recipe_id.strip()))[len(recipe_id.strip()) > 0]
             recipe["ingrd"] = recipe_ingredients
             recipe["instrct"] = recipe_instructions
             recipe["img"] = recipe_image
-            recipe["auth"] = {"n": author_name, "src": author_url}
+            recipe["auth"] = {'n': author_name, 'src': author_url}
             recipe["tags"] = recipe_tags
             recipe["likes"] = likes
             recipe["pub"] = datetime.utcnow().isoformat()

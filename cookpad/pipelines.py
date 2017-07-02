@@ -51,7 +51,8 @@ class MsSQLDBPipeline(object):
                 raise DropItem("Missing data!")
 
         if isinstance(item, RecipeItem):
-            temp_item = json.dumps(dict(item), ensure_ascii=False).replace('\r\n', '')
+            #temp_item = json.dumps(dict(item), ensure_ascii=False, sort_keys=True).replace('\r\n', '')
+            temp_item = json.dumps(dict(item), ensure_ascii=False, sort_keys=True,indent=4).replace('\r\n', '')
             self.msSQLDAL.execute_none_query(query="exec USP_Recipes_upsert @json=N'%s'", sp_params=(temp_item),\
                                         app_name='MsSQLDBPipeline-' + spider.name)
             if settings['LOG_LEVEL'] == 'DEBUG':
