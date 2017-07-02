@@ -45,7 +45,7 @@ class CookpadrSpider(scrapy.Spider):
         author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
         recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
         try:
-            recipe_image = [x['src'] for x in soup.findAll('img', {'alt': 'Photo'})][0]
+            recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
         except:
             recipe_image = ''
 
@@ -157,8 +157,8 @@ runner = CrawlerProcess(settings=project_settings)
 
 @defer.inlineCallbacks
 def crawl():
-    yield runner.crawl(ExtractlinksSpider)
-    #yield runner.crawl(CookpadrSpider)
+    #yield runner.crawl(ExtractlinksSpider)
+    yield runner.crawl(CookpadrSpider)
     reactor.stop()
 
 
