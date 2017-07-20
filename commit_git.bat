@@ -5,4 +5,4 @@ git push
 @echo delpoy heroku
 rem git push heroku master
 
-pause
+rem pause
