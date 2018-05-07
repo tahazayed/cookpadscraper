@@ -4,6 +4,5 @@ git push origin master
 git push heroku master
 
 @echo delpoy heroku
-rem git push heroku master
-
-rem pause
+@rem git push heroku master
+@rem pause
