@@ -130,7 +130,7 @@ class ExtractlinksSpider(scrapy.Spider):
     #max_page_Id = 3000000
 
     def parse(self, response):
-        recipes = Selector(response).xpath('//div[@class="masonry__item masonry__item--added masonry__item--loaded"]')
+        recipes = Selector(response).xpath('//div[@class="masonry__item"]')
 
         for recipe in recipes:
             item = RecipeURLItem()
