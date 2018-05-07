@@ -14,10 +14,10 @@ BOT_NAME = 'cookpad'
 SPIDER_MODULES = ['cookpad.spiders']
 NEWSPIDER_MODULE = 'cookpad.spiders'
 LOG_LEVEL = 'ERROR'
-#LOG_FILE = 'cookpad.log'
+LOG_FILE = 'cookpad.log'
 
 
-IS_MSSQLDB = False
+IS_MSSQLDB = True
 
 ITEM_PIPELINES = {'cookpad.pipelines.MsSQLDBPipeline':300}
 
@@ -43,18 +43,18 @@ DOWNLOADER_MIDDLEWARES = {
             'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 300}
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 20
+CONCURRENT_REQUESTS = 100
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 100
+CONCURRENT_REQUESTS_PER_IP = 100
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED = False
@@ -98,12 +98,12 @@ DEFAULT_REQUEST_HEADERS = {
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = False
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 0
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY = 15
+AUTOTHROTTLE_MAX_DELAY = 3
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 30.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 16.0
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = False
 
@@ -112,6 +112,6 @@ AUTOTHROTTLE_DEBUG = False
 HTTPCACHE_ENABLED = False
 HTTPCACHE_EXPIRATION_SECS = 0
 HTTPCACHE_DIR = './httpcache'
-HTTPCACHE_IGNORE_HTTP_CODES = []
+HTTPCACHE_IGNORE_HTTP_CODES = [502]
 HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 HTTPCACHE_GZIP = True

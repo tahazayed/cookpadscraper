@@ -13,6 +13,7 @@ from twisted.internet import reactor, defer
 from cookpad.items import RecipeItem, RecipeURLItem
 from cookpad.mongodal import MongoDAL
 from cookpad.mssqlodal import MsSQLDAL
+import sys
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -22,8 +23,8 @@ class CookpadrSpider(scrapy.Spider):
         urls = []
 
         if settings['IS_MSSQLDB']:
-            msSQLDAL = MsSQLDAL()
-            results = msSQLDAL.read(query="USP_RecipesSpider_readall",app_name=self.name)
+            self.msSQLDAL = MsSQLDAL()
+            results = self.msSQLDAL.read(query="USP_RecipesSpider_readall",app_name=self.name)
         else:
             mongodal = MongoDAL()
             results = mongodal.read_mongo(collection="recipes_spider")
@@ -41,11 +42,11 @@ class CookpadrSpider(scrapy.Spider):
         soup = BeautifulSoup(page, 'html.parser')
         recipe_name = soup.find('h1', {
             'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
-        author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip()
+        author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
         author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
         recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
         try:
-            recipe_image = [x['src'] for x in soup.findAll('img', {'alt': 'Photo'})][0]
+            recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
         except:
             recipe_image = ''
 
@@ -65,7 +66,7 @@ class CookpadrSpider(scrapy.Spider):
             index = 1
             for i in soup.find_all('li', {'class': 'ingredient'}):
                 if i.text.strip() != '':
-                    recipe_ingredients.append({'in': index, 'n': i.text.strip()})
+                    recipe_ingredients.append({'in': index, 'n': i.text.strip().replace("'","-")})
                     index = index + 1
 
             index = 1
@@ -77,7 +78,7 @@ class CookpadrSpider(scrapy.Spider):
                         .replace('//global.cpcdn.com/en/assets/blank_step-17c926f7cd09f48ae848b5dfe68bcf26cf84cf2129001eee9513dc6c062d83bc.jpg','')
                 except:
                     imageUrl = ''
-                recipe_instructions.append({'in': index, 'txt': step, 'img': imageUrl})
+                recipe_instructions.append({'in': index, 'txt': step.replace("'","-"), 'img': imageUrl})
                 del step, imageUrl
 
                 index = index + 1
@@ -86,11 +87,11 @@ class CookpadrSpider(scrapy.Spider):
             for i in soup.find_all('ul', {"class": 'list-inline'}):
                 for x in i.find_all('a'):
                     if('/eg/search/' in x['href']):
-                        recipe_tags.append(x.text.strip())
+                        recipe_tags.append(x.text.strip().replace("'","-"))
 
 
             recipe = RecipeItem()
-            recipe["n"] = recipe_name
+            recipe["n"] = recipe_name.replace("'","-")
             recipe["src"] = response.url.replace('https://cookpad.com/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
             recipe["rcpe_id"] = (recipe_id, int(recipe_id.strip()))[len(recipe_id.strip()) > 0]
             recipe["ingrd"] = recipe_ingredients
@@ -108,9 +109,15 @@ class CookpadrSpider(scrapy.Spider):
 
             return recipe
         else:
+            if(self.logger.isEnabledFor(10)):
+                self.logger.debug("0 Likes")
             pass
 
     def errback(self, response):
+        if settings['IS_MSSQLDB']:
+            src = response.request.url.replace('https://cookpad.com/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
+            self.msSQLDAL.execute_none_query(query="exec USP_Recipes_NotFound_insert @src='%s'", sp_params=(src.replace('\r\n', '')), \
+                                        app_name='MsSQLDBPipeline-' + self.name)
         pass
 
 
@@ -157,7 +164,7 @@ runner = CrawlerProcess(settings=project_settings)
 
 @defer.inlineCallbacks
 def crawl():
-    yield runner.crawl(ExtractlinksSpider)
+    #yield runner.crawl(ExtractlinksSpider)
     yield runner.crawl(CookpadrSpider)
     reactor.stop()
 
