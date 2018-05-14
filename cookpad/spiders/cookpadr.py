@@ -42,9 +42,13 @@ class CookpadrSpider(scrapy.Spider):
         soup = BeautifulSoup(page, 'html.parser')
         recipe_name = soup.find('h1', {
             'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
+        print(recipe_name)
         author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
+        print(author_name)
         author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
+        print(author_url)
         recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
+        print(recipe_id)
         try:
             recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
         except:
