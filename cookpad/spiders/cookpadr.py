@@ -39,7 +39,7 @@ class CookpadrSpider(scrapy.Spider):
 
     def parse(self, response):
         page = response.body.decode("utf-8")
-        tempSoup = BeautifulSoup(page, 'html.parser')
+        tempSoup = BeautifulSoup(page, 'lxml')
         pre  = tempSoup.find('pre')
         preText = pre.text
         
