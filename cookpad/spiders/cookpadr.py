@@ -42,14 +42,13 @@ class CookpadrSpider(scrapy.Spider):
         soup = BeautifulSoup(page, 'html.parser')
 
         recipe_likes = soup.find('span', attrs={'class': 'field-group__hide subtle'}).text.strip()
-        self.logger.debug("recipe_likes"+recipe_likes)
         
         likes = 0
         try:
             likes = (0, int(recipe_likes.strip()))[len(recipe_likes.strip()) > 0]
         except:
             likes = 0
-
+        self.logger.debug("likes: "+likes)
         if likes != 0:
         
             recipe_name = soup.find('h1', {'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
