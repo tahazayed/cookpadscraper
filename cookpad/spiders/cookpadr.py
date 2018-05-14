@@ -162,7 +162,7 @@ runner = CrawlerProcess(settings=project_settings)
 
 @defer.inlineCallbacks
 def crawl():
-    yield runner.crawl(ExtractlinksSpider)
+    #yield runner.crawl(ExtractlinksSpider)
     yield runner.crawl(CookpadrSpider)
     reactor.stop()
 
