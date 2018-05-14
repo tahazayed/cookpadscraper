@@ -1,4 +1,5 @@
-FROM scrapinghub/base:14.04
+FROM heroku/heroku:16
+#FROM scrapinghub/base:14.04
 
 RUN apt-get update && apt-get install -y \
     freetds-bin \
