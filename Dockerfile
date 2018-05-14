@@ -1,4 +1,4 @@
-FROM scrapinghub/python:3
+FROM scrapinghub/base:14.04
 
 
 WORKDIR /app
