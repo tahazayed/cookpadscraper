@@ -49,7 +49,7 @@ class CookpadrSpider(scrapy.Spider):
             likes = int(recipe_likes)
         except:
             likes = 0
-        self.logger.debug("likes: "+str(likes))
+        self.logger.debug("likes: "+str(likes)+ " recipe_likes: "+recipe_likes)
         if likes != 0:
         
             recipe_name = soup.find('h1', {'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
