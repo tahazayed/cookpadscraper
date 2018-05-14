@@ -45,7 +45,8 @@ class CookpadrSpider(scrapy.Spider):
         
         likes = 0
         try:
-            likes = (0, int(recipe_likes.strip()))[len(recipe_likes.strip()) > 0]
+            #likes = (0, int(recipe_likes.strip()))[len(recipe_likes.strip()) > 0]
+            likes = int(recipe_likes)
         except:
             likes = 0
         self.logger.debug("likes: "+str(likes))
