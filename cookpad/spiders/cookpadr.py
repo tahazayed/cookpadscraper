@@ -39,20 +39,7 @@ class CookpadrSpider(scrapy.Spider):
 
     def parse(self, response):
         page = response.body.decode("utf-8")
-        soup = BeautifulSoup(page, 'html.parser')
-        recipe_name = soup.find('h1', {
-            'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
-        print(recipe_name)
-        author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
-        print(author_name)
-        author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
-        print(author_url)
-        recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
-        print(recipe_id)
-        try:
-            recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
-        except:
-            recipe_image = ''
+        soup = BeautifulSoup(page, 'html.parser')     
 
         recipe_likes = soup.find('span', attrs={'class': 'field-group__hide subtle'}).text.strip()
 
@@ -63,6 +50,19 @@ class CookpadrSpider(scrapy.Spider):
             likes = 0
 
         if likes != 0:
+            recipe_name = soup.find('h1', { \
+            'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
+            print(recipe_name)
+            author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
+            print(author_name)
+            author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
+            print(author_url)
+            recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
+            print(recipe_id)
+            try:
+                recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
+            except:
+                recipe_image = ''
             desc = soup.find(attrs={'name': 'description'})['content']
 
             # recipe_image = recipe_image_div.find('a',{'data-target':'#modal'})["href"]
