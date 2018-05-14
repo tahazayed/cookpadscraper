@@ -53,14 +53,19 @@ class CookpadrSpider(scrapy.Spider):
             likes = 0
 
         if likes != 0:
+        
             recipe_name = soup.find('h1', {'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
-            self.logger.debugrecipe_name)
+            self.logger.debug(recipe_name)
+            
             author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
-            self.logger.debugauthor_name)
+            self.logger.debug(author_name)
+            
             author_url = soup.find('span', attrs={'itemprop': "author"}).parent['href']
-            self.logger.debugauthor_url)
+            self.logger.debug(author_url)
+            
             recipe_id = soup.find('div', attrs={'class': 'bookmark-button '})['id'].replace('bookmark_recipe_', '')
-            self.logger.debugrecipe_id)
+            self.logger.debug(recipe_id)
+            
             try:
                 recipe_image = [x['src'] for x in soup.findAll('img', {'alt': recipe_name})][0]
             except:
