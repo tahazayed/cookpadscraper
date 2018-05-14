@@ -40,10 +40,10 @@ class CookpadrSpider(scrapy.Spider):
     def parse(self, response):
         page = response.body.decode("utf-8")
         tempSoup = BeautifulSoup(page, 'lxml')
-        pre  = tempSoup.find('pre').find(text=True)
-        preText = pre.text
+        pre  = tempSoup.find('pre').contents[0]
+    
         
-        soup = BeautifulSoup(preText, 'html.parser')
+        soup = BeautifulSoup(pre, 'html.parser')
 
         recipe_likes = soup.find('span', attrs={'class': 'field-group__hide subtle'}).text.strip()
 
@@ -125,7 +125,7 @@ class CookpadrSpider(scrapy.Spider):
             return recipe
         else:
             del page, soup, recipe_likes, likes
-            del tempSoup, pre, preText
+            del tempSoup, pre
             if(self.logger.isEnabledFor(10)):
                 self.logger.debug("0 Likes")
             pass
