@@ -106,6 +106,8 @@ class CookpadrSpider(scrapy.Spider):
             del page, soup, recipe_name, author_name, author_url, recipe_id, likes
             del recipe_image, recipe_likes, recipe_ingredients, index
             del recipe_tags, recipe_instructions
+            
+            print(recipe)
 
             return recipe
         else:
