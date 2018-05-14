@@ -40,7 +40,8 @@ class CookpadrSpider(scrapy.Spider):
     def parse(self, response):
         page = response.body.decode("utf-8")
         tempSoup = BeautifulSoup(page, 'html.parser')
-        pre  = tempSoup.find('pre')
+        
+        pre  = Selector(response).xpath("//pre//pre/text()").extract()
         self.logger.debug(pre)    
         
         soup = BeautifulSoup(pre, 'html.parser')
