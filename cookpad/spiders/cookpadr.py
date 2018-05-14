@@ -127,7 +127,7 @@ class ExtractlinksSpider(scrapy.Spider):
     base_url = 'https://cookpad.com/eg/وصفات?page=%s'
     start_urls = [base_url % 1]
     pageid = 1
-	max_page_Id = 1020
+    max_page_Id = 1020
 
     def parse(self, response):
         recipes = Selector(response).xpath('//div[@class="masonry__item"]')
@@ -140,12 +140,12 @@ class ExtractlinksSpider(scrapy.Spider):
             yield item
 
         #if len(recipes) > 0 :
-		if len(recipes) > 0 and self.pageid < self.max_page_Id:
-			self.pageid = self.pageid + 1
-			next_page = self.base_url % self.pageid
-			yield scrapy.Request(url=next_page, callback=self.parse, meta={'dont_merge_cookies': False}, \
-			dont_filter=True \
-			, encoding='utf-8', errback=self.errback)
+        if len(recipes) > 0 and self.pageid < self.max_page_Id:
+            self.pageid = self.pageid + 1
+            next_page = self.base_url % self.pageid
+            yield scrapy.Request(url=next_page, callback=self.parse, meta={'dont_merge_cookies': False}, \
+            dont_filter=True \
+            , encoding='utf-8', errback=self.errback)
 
     def errback(self, response):
         pass
