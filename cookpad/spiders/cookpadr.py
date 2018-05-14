@@ -50,8 +50,7 @@ class CookpadrSpider(scrapy.Spider):
             likes = 0
 
         if likes != 0:
-            recipe_name = soup.find('h1', { \
-            'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
+            recipe_name = soup.find('h1', {'class': "recipe-show__title recipe-title strong field-group--no-container-xs"}).text.strip()
             print(recipe_name)
             author_name = soup.find('span', attrs={'itemprop': "author"}).text.strip().replace("'","-")
             print(author_name)
