@@ -14,6 +14,7 @@ from cookpad.items import RecipeItem, RecipeURLItem
 from cookpad.mongodal import MongoDAL
 from cookpad.mssqlodal import MsSQLDAL
 import sys
+import re
 
 
 class CookpadrSpider(scrapy.Spider):
@@ -46,7 +47,7 @@ class CookpadrSpider(scrapy.Spider):
         likes = 0
         try:
             #likes = (0, int(recipe_likes.strip()))[len(recipe_likes.strip()) > 0]
-            likes = int(recipe_likes)
+            likes = int(re.sub("[^0-9]", "",recipe_likes))
         except:
             likes = 0
         self.logger.debug("likes: "+str(likes)+ " recipe_likes: "+recipe_likes)
