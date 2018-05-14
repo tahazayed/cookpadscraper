@@ -130,13 +130,15 @@ class ExtractlinksSpider(scrapy.Spider):
     max_page_Id = 1020
 
     def parse(self, response):
-        recipes = Selector(response).xpath('//div[@class="masonry__item"]')
+        recipes = Selector(response).xpath('//div[@class="masonry__item"]//a[@class="link-unstyled"]/@href').extract()
 
         for recipe in recipes:
             item = RecipeURLItem()
+            """
 
             item['url'] = recipe.xpath(
-                '//a[@class="link-unstyled"]/@href').extract()[0].replace('/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
+                '//a[@class="link-unstyled"]/@href').extract()[0].replace('/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')"""
+            item['url'] = recipe.replace('/eg/%D9%88%D8%B5%D9%81%D8%A7%D8%AA/', '')
             yield item
 
         #if len(recipes) > 0 :
