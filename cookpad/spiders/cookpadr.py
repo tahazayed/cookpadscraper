@@ -71,13 +71,19 @@ class CookpadrSpider(scrapy.Spider):
 			recipe_ingredients = []
 			index = 1
 			for i in soup.find_all('li', {'class': 'ingredient'}):
-				if i.text.strip() != '':
+				if len(i.text.strip())>0:
 					ingredient_quantity = ""
 					try:
 						ingredient_quantity = soup.find('span', attrs={'class': "ingredient__quantity"}).text
 					except:
 						ingredient_quantity = ""
-					recipe_ingredients.append({'in': index, 'n': i.text.strip().replace("'","-"), 'q': ingredient_quantity})
+					
+					ingredient_text = i.text.strip().replace("'","-")
+					
+					if len(ingredient_quantity)>0:
+						ingredient_text = ingredient_text.replace(ingredient_text,"")
+						
+					recipe_ingredients.append({'in': index, 'n': ingredient_text , 'q': ingredient_quantity})
 					index = index + 1
 
 			index = 1
