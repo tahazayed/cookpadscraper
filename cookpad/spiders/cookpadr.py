@@ -74,7 +74,7 @@ class CookpadrSpider(scrapy.Spider):
 				if len(i.text.strip())>0:
 					ingredient_quantity = ""
 					try:
-						ingredient_quantity = soup.find('span', attrs={'class': "ingredient__quantity"}).text
+						ingredient_quantity = i.find('span', attrs={'class': "ingredient__quantity"}).text
 					except:
 						ingredient_quantity = ""
 					
