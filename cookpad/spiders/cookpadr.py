@@ -81,7 +81,7 @@ class CookpadrSpider(scrapy.Spider):
 					ingredient_text = i.text.strip().replace("'","-")
 					
 					if len(ingredient_quantity)>0:
-						ingredient_text = ingredient_text.replace(ingredient_quantity,"")
+						ingredient_text = ingredient_text.replace(ingredient_quantity,"").strip()
 						
 					recipe_ingredients.append({'in': index, 'n': ingredient_text , 'q': ingredient_quantity})
 					index = index + 1
